@@ -1,0 +1,474 @@
+Here’s a comprehensive list of commonly used macOS bash commands with syntax and examples. These commands are helpful for scripting and automating tasks on macOS:
+
+1. echo
+Prints text or variables to the terminal.
+
+Example : echo "Hello, World!"
+
+2. cd
+Changes the current directory.
+
+Example : cd /path/to/directory
+
+3. ls
+Lists files and directories in the current or specified directory.
+
+Example : ls
+          ls -l /path/to/directory  # Detailed listing
+4. mkdir
+Creates a new directory.
+
+Example :mkdir new_directory
+
+5. touch
+Creates an empty file or updates the timestamp of an existing file.
+
+Example : touch filename.txt
+
+6. cp
+Copies files or directories.
+
+Example : cp source.txt destination.txt
+          cp -R /source/folder /destination/folder  # Copies a directory recursively
+
+7. mv
+Moves or renames files or directories.
+
+Example : mv oldname.txt newname.txt
+          mv /source/file.txt /destination/  # Moves file
+
+8. rm
+Removes (deletes) files or directories.
+
+Example : rm filename.txt
+          rm -rf /path/to/directory  # Removes directory recursively
+
+9. chmod
+Changes file or directory permissions (who can read, write, or execute a file or directory). There are three types of permissions:
+
+a) Read (r): Allows reading the file or listing a directory's contents b) Write (w): Allows modifying a file or adding/removing files in a directory. c) Execute (x): Allows running a file (if it's a script or program) or accessing a directory.
+Each file has three sets of permissions for: a) User (u): The owner of the file. b) Group (g): Users in the file’s group. c) Others (o): Everyone else.
+
+Example : chmod 755 script.sh  # Gives read, write, and execute permissions to the owner . 7 = 4 (read) + 2 (write) + 1 (execute) = 7 (rwx) . 5 = 4 (read) + 1 (execute) = 5 (rx)
+          chmod u+x file.txt  # Adds execute permission for the user
+          chmod g-w file.txt  # Removes write permission for the group
+          chmod a=r file.txt  # Sets read-only permission for everyone
+
+
+10. chown
+Changes ownership of files or directories(who owns the file and which group it belongs to).
+Syntax :  chown [owner][:group] [file]    owner: The new owner (user) of the file. group: The new group of the file. (You can optionally omit this if you only want to change the user.) [file]: The file or directory for which ownership is being changed. 
+Example : sudo chown newowner:newgroup filename.txt
+          chown john file.txt  # Change the owner of the file to 'john'
+          chown john:developers file.txt  # Change the owner to 'john' and group to 'developers'
+          chown -R john:developers /path/to/directory  # Change ownership for all files and subdirectories
+
+11. find
+Searches for files and directories.
+
+Example : find /path -name "filename.txt"
+          find /path -type d -name "directoryname"  # Find directories
+
+12. grep
+Searches for patterns in text or files.
+
+Example : grep "pattern" filename.txt
+          grep -r "pattern" /path/to/directory  # Recursive search
+
+13. cat
+Concatenates and displays the contents of a file.
+
+Example : cat filename.txt
+
+14. less
+Displays the contents of a file one screen at a time.
+
+Example : less filename.txt
+
+15. head
+Displays the first few lines of a file.
+
+Example : head -n 10 filename.txt  # Show first 10 lines
+
+16. tail
+Displays the last few lines of a file.
+
+Example : tail -n 10 filename.txt  # Show last 10 lines
+
+17. ps
+Displays the currently running processes.
+
+Example : ps aux
+
+18. kill
+Terminates a process by its process ID (PID).
+
+Example : kill 1234  # Replace 1234 with the actual PID
+
+19. pgrep
+Finds processes based on name.
+
+Example : pgrep processname
+
+20. sudo
+Runs commands with superuser (root) privileges.
+
+Example : sudo command
+
+21. open
+Opens a file or application on macOS.
+
+Example : open filename.txt  # Opens file with the default application
+          open -a "Application Name"  # Opens a specific application
+
+22. osascript
+Executes AppleScript commands from the terminal.
+
+osascript -e 'tell application "Safari" to quit'
+
+23. diskutil
+Manages disks and partitions.
+
+Example : diskutil list  # List all connected disks
+          diskutil eraseDisk HFS+ 'NewVolume' /dev/disk2  # Format disk
+
+24. hdiutil
+Manages disk images (DMG files).
+
+Example : hdiutil attach /path/to/diskimage.dmg
+          hdiutil detach /Volumes/DiskName
+
+25. curl
+Transfers data from or to a server, commonly used for downloading files.
+
+Example : curl -O https://example.com/file.txt  # Download a file
+          curl -X POST -d "param=value" https://example.com/api  # Send POST request
+
+26. wget
+Downloads files from the web.
+
+Example : wget https://example.com/file.txt
+
+27. tar
+Compresses or extracts tar archive files.
+
+Example : tar -cvf archive.tar /path/to/folder  # Create tar archive
+          tar -xvf archive.tar  # Extract tar archive
+
+28. zip/unzip
+Compresses files into a zip archive or extracts zip files.
+
+Example : zip archive.zip file1.txt file2.txt  # Create zip archive
+          unzip archive.zip  # Extract zip archive
+
+29. date
+Displays or sets the date and time.
+
+Example : date
+
+30. whoami
+Displays the current logged-in user.
+
+Example : whoami
+
+31. df
+Displays disk space usage.
+
+Example :df -h  # Human-readable format
+
+32. du
+Displays the disk usage of files and directories.
+
+Example : du -sh /path/to/directory  # Summarize directory size
+
+33. ifconfig
+Displays network interfaces and configuration.
+
+Example : ifconfig
+
+34. ping
+Sends a ping to a remote host to check network connectivity.
+
+Example : ping google.com
+
+35. traceroute
+Traces the path packets take to a network host.
+
+Example : traceroute google.com
+
+36. scp
+Securely copies files between hosts.
+
+Example : scp /path/to/file user@remote_host:/path/to/destination
+
+37. ssh
+Logs into a remote machine securely.
+
+Example : ssh user@remote_host
+
+38. brew
+Manages Homebrew packages (for installing and managing software on macOS).
+
+Example : brew install package_name
+          brew uninstall package_name
+
+39. defaults
+Manages macOS user preferences.
+
+Example : defaults write com.apple.finder AppleShowAllFiles YES  # Show hidden files in Finder
+          defaults write com.apple.screencapture location ~/Screenshots #change screenshot file location
+          defaults write com.apple.dock tilesize -int 50  # Set Dock size to 50 pixels    killall Dock  # Restart the Dock
+          defaults write com.apple.dock autohide -bool TRUE  # Enable auto-hide           killall Dock  # Restart the Dock
+          defaults write com.apple.Safari TabsInBackground -bool TRUE  # Open Safari new tabs in the background
+
+
+40. systemsetup
+Configures macOS system settings.
+
+Example : sudo systemsetup -settimezone "America/New_York"
+          sudo systemsetup -gettimezone
+
+41. spctl
+Manages Gatekeeper (macOS security feature) settings.
+
+Example : sudo spctl --master-disable  # Disable Gatekeeper
+          sudo spctl --master-enable  # Enable Gatekeeper
+
+42. networksetup
+Configures macOS network settings.
+
+Example : networksetup -getnetworkserviceenabled "Wi-Fi"  # Check Wi-Fi status
+          networksetup -setnetworkserviceenabled "Wi-Fi" off  # Disable Wi-Fi
+
+43. launchctl
+Manages launch services (for starting/stopping services or daemons).Loads, unloads, and manages macOS launch services (like daemons or agents).
+
+Example : launchctl load /Library/LaunchDaemons/com.example.daemon.plist  # Load a service
+          launchctl unload /Library/LaunchDaemons/com.example.daemon.plist  # Unload a service
+
+44. ioreg
+Displays I/O Kit registry information for hardware and devices.
+
+Example : ioreg -l  # Lists detailed hardware info
+          ioreg -p IOUSB  # List all USB devices
+          ioreg -l | grep "Battery"  # Get detailed battery information
+
+45. pmset
+Manages power management settings.
+
+Example : pmset -g  # View current power management settings
+          sudo pmset sleep 0  # Disable sleep mode
+          sudo pmset sleep 30  # Set sleep timer to 30 minutes
+          sudo pmset displaysleep 10  # Set display sleep timer to 10 minutes
+
+46. say
+Makes the computer speak the provided text.
+
+Example : say "Hello, world!"
+
+47. man
+Displays the manual for a command.
+
+Example : man ls  # Shows the manual for the 'ls' command
+
+48. xcode-select
+Manages the active developer directory (used to switch between different versions of Xcode or command-line tools).
+
+Example : xcode-select --install  # Install the Xcode command-line tools
+          xcode-select --switch /path/to/Xcode.app  # Switch to a different version of Xcode
+
+49. csrutil
+Configures System Integrity Protection (SIP), macOS's security feature.
+
+Must be run from Recovery Mode.
+
+Example : csrutil status  # Check the status of SIP
+          csrutil disable  # Disable SIP (must be in recovery mode)
+
+50. sw_vers
+Displays macOS version information.
+
+Example :  sw_vers  # Shows macOS version, build, and product name
+
+51. diskutil
+Manages disks, partitions, and volumes.
+
+Example : diskutil list  # List all connected disks and partitions
+          diskutil eraseDisk JHFS+ "Macintosh HD" /dev/disk2  # Erase and format a disk
+
+52. system_profiler
+Displays detailed system hardware and software information.
+
+Example : system_profiler SPHardwareDataType  # View hardware information
+          system_profiler SPApplicationsDataType  # View installed applications
+
+53. networksetup
+Manages network settings, interfaces, and configurations.
+
+Example : networksetup -getinfo Wi-Fi  # Get Wi-Fi interface information
+          networksetup -setairportpower Wi-Fi off  # Turn off Wi-Fi
+
+54. softwareupdate
+Installs macOS updates from the command line.
+
+Example : sudo softwareupdate -l  # List available updates
+          sudo softwareupdate -i "macOS Big Sur"  # Install a specific update
+
+55. tccutil
+Manages macOS privacy database settings, such as granting or revoking app permissions.
+
+Example : tccutil reset Microphone  # Reset microphone permissions for all apps
+          tccutil reset All com.apple.Terminal  # Reset all permissions for Terminal
+
+56. diskutil secureErase
+Performs a secure erase of a disk.
+
+Example : diskutil secureErase 0 /dev/disk2  # Perform a single-pass secure erase of a disk
+
+57. sips
+Scriptable image processing system. Manipulates image files directly from the command line.
+
+Example : sips -z 800 600 input.jpg  # Resize image to 800x600
+          sips --flip horizontal input.jpg  # Flip image horizontally
+
+58. mdfind
+Searches files using Spotlight's metadata index.
+
+Example : mdfind "filename.txt"  # Search for a file by name
+          mdfind "kMDItemKind == 'PDF'"  # Search for PDF files
+
+59. mdutil
+Manages Spotlight indexing for specific volumes.
+
+Example : mdutil -s /  # Check if indexing is enabled for the main volume
+          sudo mdutil -i off /  # Disable indexing for the main volume
+
+60. plutil
+Manipulates property list (plist) files used in macOS settings and configurations.
+
+Example : plutil -convert xml1 settings.plist  # Convert plist file to XML format
+          plutil -lint settings.plist  # Check for errors in a plist file
+
+61. zip
+Compresses files into a ZIP archive.
+
+Example : zip -r archive.zip folder/  # Compress a folder into a zip archive
+
+62. unzip
+Extracts ZIP archive files.
+
+Example : unzip archive.zip  # Extract a zip file
+
+63. uuidgen
+Generates a new universally unique identifier (UUID).
+
+Example : uuidgen  # Generate a new UUID
+
+64. apachectl
+Manages the Apache web server on macOS.
+
+Example : sudo apachectl start  # Start the Apache server
+          sudo apachectl stop  # Stop the Apache server
+          sudo apachectl restart  # Restart the Apache server
+65. brew
+Manages software packages installed via Homebrew.
+
+Example : brew install package_name  # Install a package
+          brew update  # Update Homebrew and formulae
+          brew upgrade  # Upgrade installed packages
+
+66. htop
+Interactive process viewer (similar to top but with more features).
+
+Example : htop  # Start htop
+
+67. nc (netcat)
+Performs network-related operations, such as checking open ports or sending/receiving data.
+
+Example : nc -zv google.com 80  # Check if port 80 is open on google.com
+
+68. tmutil
+Manages Time Machine backups from the command line.
+
+Example : tmutil startbackup  # Start a manual backup
+          tmutil listbackups  # List available backups
+
+69. scutil
+Configures and manages macOS system configuration parameters.
+
+Example : scutil --get ComputerName  # Get the computer name
+          scutil --set ComputerName "NewName"  # Set a new computer name
+
+70. sqlite3
+Command-line interface for SQLite databases.
+
+Example : sqlite3 my_database.db  # Open a SQLite database
+          sqlite3 my_database.db "SELECT * FROM my_table;"  # Run a query
+
+71. pbcopy/pbpaste
+Copies or pastes text to/from the macOS clipboard.
+
+Example : echo "Hello, World!" | pbcopy  # Copy text to the clipboard
+          pbpaste  # Paste text from the clipboard
+
+72. nmap
+Scans networks and discovers open ports and services (requires installation).
+
+Example : nmap -p 80 google.com  # Scan port 80 on google.com
+
+73. gpg
+Encrypts or signs data using GnuPG (GPG).
+
+Example : gpg --encrypt --recipient user@example.com file.txt  # Encrypt a file
+          gpg --decrypt file.txt.gpg  # Decrypt a file
+
+74. rsync
+Synchronizes files between two locations.
+
+Example : rsync -av /source/directory/ /destination/directory/  # Sync directories
+
+75. vm_stat
+Displays virtual memory statistics.
+
+bash
+Copy code
+vm_stat
+
+76. tee
+Reads from standard input and writes to both standard output and files.
+
+Example : echo "Hello" | tee file.txt  # Write to file and display on the terminal
+
+77. awk
+A text-processing tool for pattern scanning and processing. It's particularly well-suited for working with structured text files, such as CSVs or any text data organized in rows and columns.
+
+Example : awk '{ print $1 }' file.txt  # Print the first column of text in a file
+          awk '{ print $1, $3 }' file.txt  # Print the first and third columns of a file
+          awk '$2 > 10' file.txt  # Print rows where the second column is greater than 10
+          awk -F, '{ print $1, $2 }' file.csv  # Print the first and second columns of a CSV file
+          awk '{ gsub("old_text", "new_text", $1); print }' file.txt  # Replace 'old_text' with 'new_text' in the first column
+          awk '/pattern/ { print }' file.txt  # Print lines containing 'pattern'
+          ls -l /dev/console | awk '/ / { print $3 }'    # Current_User
+
+78. sed
+A stream editor used to modify or transform text. It is particularly useful for simple text transformations and substitutions directly in files or streams of data.
+
+Example : sed '2,4d' file.txt  # Delete lines 2 to 4
+          sed -n '2,4p' file.txt  # Print lines 2 to 4 without modifying the file
+          sed 's/old/new/' file.txt  # Replace first occurrence of 'old' with 'new'
+          sed 's/old/new/g' file.txt  # Replace all occurrences of 'old' with 'new'
+          sed '3i This is a new line.' file.txt  # Insert a new line before line 3
+          sed '3s/old/new/' file.txt  # Replace 'old' with 'new' in line 3 only
+          sed 's/old/new/g' file.txt > newfile.txt  # Save changes to 'newfile.txt'
+          sed '/^$/d' file.txt  # Delete all empty lines
+
+79. dig
+A DNS lookup utility that resolves domain names into IP addresses.
+
+Example : dig google.com  # Get the DNS records for google.com
+
+80. traceroute
+Traces the route that packets take to reach a network host.
+
+Example : traceroute google.com  # Trace the route to Google
+
