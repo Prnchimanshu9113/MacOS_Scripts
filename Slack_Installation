@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mkdir /tmp/slackinstallation
+curl --location "https://slack.com/ssb/download-osx-universal" --output /tmp/slackinstallation/slack.dmg
+hdiutil attach /tmp/slackinstallation/slack.dmg -nobrowse -readonly
+cp -R /Volumes/Slack/Slack.app /Applications/
+hdiutil detach /Volumes/Slack/ -force
+rm -rf /tmp/slackinstallation
