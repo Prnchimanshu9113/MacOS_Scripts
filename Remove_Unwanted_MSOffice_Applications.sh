@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Define the list of unwanted Microsoft Office apps using array
+#Define the list of unwanted Microsoft Office apps using array
 apps_to_remove=(
     "Microsoft Teams.app"
     "OneDrive.app"
