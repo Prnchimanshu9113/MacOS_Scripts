@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo "<result>$(diskutil info / | awk '/Free Space|Available Space/{print $4}')</result>"
