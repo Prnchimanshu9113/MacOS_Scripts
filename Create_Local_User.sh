@@ -1,8 +1,8 @@
 #!/bin/bash
 
-username="newuser"
-password="password"
-userUID="501"
+username="MSD"
+password="TFAR"
+userUID="107"
 
 # Create user account
 sysadminctl -addUser "$username" -password "$password" -UID "$userUID" -admin
