@@ -1,0 +1,77 @@
+1. Basic Jamf Commands
+sudo jamf help
+#Displays a list of available Jamf commands with descriptions.
+
+sudo jamf version
+#Shows the version of the Jamf binary installed on the device.
+
+sudo jamf checkJSSConnection
+#Tests the connection between the device and the Jamf Pro server.
+
+sudo jamf manage
+#Enforces the management framework, ensuring that the device is properly managed by Jamf Pro.
+
+sudo jamf policy
+#Triggers the execution of policies assigned to the device immediately.
+
+sudo jamf policy -verbose
+#Provides detailed output while running policies for troubleshooting.
+
+2.Enrollment & Profiles Related Commands
+
+sudo jamf enroll
+#enrolls the Mac into the Jamf Pro server if it has been un-enrolled.
+
+sudo profiles -P
+#Lists all configuration profiles installed on the Mac.
+
+sudo profiles -L -v
+#Provides detailed information about installed profiles and their status on the Mac.
+
+sudo profiles -D
+#Removes all installed configuration profiles from the Mac.
+
+sudo profiles status -type enrollment
+#Shows the MDM enrollment status of the Mac.
+
+sudo profiles renew -type enrollment
+#Re-enroll the device with the Mobile Device Management (MDM) system without removing the existing profiles.command forces the macOS device to re-enroll itself with the MDM server, ensuring that any configuration profiles or management settings are refreshed.
+
+sudo jamf removeFramework
+#Removes the Jamf Pro management framework from the device, unenrolling it.
+
+sudo jamf removeMdmProfile
+#Removes the MDM profile from the device but leaves the Jamf binary in place.
+
+sudo jamf remove -verbose
+#Provides detailed output while removing the Jamf Pro framework.
+
+sudo jamf log
+#Displays logs for all actions performed by the Jamf binary.
+
+sudo jamf flushPolicyHistory
+#Clears the policy history for the device. This is useful if policies are not running due to previous executions.
+
+sudo jamf log -verbose
+#Provides detailed logs with verbose output, which is useful for debugging.
+
+sudo jamf runSoftwareUpdate
+#Checks for macOS updates on the Mac and installs them if necessary.
+
+sudo jamf startup
+#Checks the connection to the Jamf Pro server and triggers startup actions as defined in the Jamf Pro settings.
+
+sudo jamf renewDeviceCert
+#Renews the management framework device certificate for communication between Jamf Pro and the Mac.
+
+sudo jamf resetPassword -username <username> -password <newpassword>
+#Resets a local user account password. It’s useful when you need to reset a user’s password for local access.
+
+sudo jamf getComputerName
+#Retrieves the current computer name as recognized by Jamf Pro.
+
+sudo jamf launchSelfService
+#Launches the Jamf Self Service app to check if policies or software installations are being enforced.
+
+
+
