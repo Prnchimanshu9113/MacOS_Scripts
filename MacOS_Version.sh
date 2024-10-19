@@ -5,3 +5,6 @@ echo "<result>$OsVer</result>"
 
 macos_version=$(sw_vers -productVersion)
 echo "<result>$macos_version</result>"
+
+OSVERSION=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
+echo "<result>$OSVERSION</result>"
