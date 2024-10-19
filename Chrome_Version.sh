@@ -8,5 +8,8 @@ appname="/Applications/Google Chrome.app"
 appvernum=`mdls -name kMDItemVersion "$appname" | sed 's/kMDItemVersion = "//' | sed 's/"//' `
 echo "<result>$appvernum</result>"
 
+appvers=$(system_profiler SPApplicationsDataType | awk -F': ' '/Google Chrome/ {getline; print $2}')
+echo "<result>$appvers</result>"
+
 
 #mdls -name kMDItemVersion "/Applications/Google Chrome.app" | sed 's/kMDItemVersion = "//' | sed 's/"//'
