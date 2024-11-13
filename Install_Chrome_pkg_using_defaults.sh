@@ -37,9 +37,9 @@ sudo installer -pkg "$PKG_NAME" -target /
 
 # Step 7: Set Facebook as the homepage using defaults
 echo "Setting Facebook as the homepage..."
-defaults write com.google.Chrome Homepage "$HOMEPAGE_URL"
-defaults write com.google.Chrome NewTabPageOverride "$HOMEPAGE_URL"
-defaults write com.google.Chrome NewTabPageOverrideEnabled -bool true
+defaults write com.google.Chrome Homepage "$HOMEPAGE_URL" # com.google.Chrome specifies that this command targets Chrome's settings (preference domain).Homepage is the specific preference being set.
+defaults write com.google.Chrome NewTabPageOverride "$HOMEPAGE_URL" # NewTabPageOverride is the preference that determines which page loads when a new tab is opened.
+defaults write com.google.Chrome NewTabPageOverrideEnabled -bool true # -bool true sets the value to true, enabling the override so that Chrome will use the URL set in NewTabPageOverride for new tabs.
 
 # Clean up
 echo "Cleaning up..."
