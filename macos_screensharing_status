@@ -1,0 +1,80 @@
+#!/bin/bash
+# ============================================================
+# Workspace ONE UEM Sensor — Screen Sharing Status Detection
+# Checks whether macOS Screen Sharing is enabled, scoped to OS
+# versions affected by the relevant vulnerability window.
+#
+# Affected version ranges (checked): 26.0-26.6, 15.0-15.7.8, 14.0-14.8.8
+# Versions outside these ranges are already patched -> default "Disabled".
+# Versions newer than a range's upper bound are reported as "Patched - <state>".
+#
+# Output: "Enabled" | "Disabled" | "Patched - Enabled" | "Patched - Disabled"
+# Log:    /Library/Logs/Adobe/screenSharingEnabled.log
+# Exit:   0 always (sensor must not fail silently)
+# ============================================================
+
+LOG_DIR="/Library/Logs/Adobe"
+LOG_FILE="$LOG_DIR/screenSharingEnabled.log"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+HOST=$(hostname -s)
+
+mkdir -p "$LOG_DIR" 2>/dev/null
+
+log() {
+    echo "[$TIMESTAMP] [host=$HOST] $1" >> "$LOG_FILE" 2>/dev/null
+}
+
+os_version=$(sw_vers -productVersion)
+os_major=${os_version%%.*}
+output="Disabled"
+
+# true if lo <= v <= hi (dotted version compare via sort -V)
+inRange() {
+    local v="$1" lo="$2" hi="$3"
+    [[ "$(printf '%s\n' "$lo" "$v" | sort -V | head -1)" == "$lo" ]] && \
+    [[ "$(printf '%s\n' "$v" "$hi" | sort -V | head -1)" == "$v" ]]
+}
+
+# true if v > hi (dotted version compare via sort -V)
+isNewerThan() {
+    local v="$1" hi="$2"
+    [[ "$v" != "$hi" ]] && [[ "$(printf '%s\n' "$hi" "$v" | sort -V | head -1)" == "$hi" ]]
+}
+
+screenSharingState() {
+    local raw
+    raw=$(launchctl print-disabled system 2>/dev/null | grep -i "com.apple.screensharing")
+    if echo "$raw" | grep -Eq "=> (false|enabled)"; then
+        echo "Enabled"
+    else
+        echo "Disabled"
+    fi
+}
+
+isAffected=false
+if inRange "$os_version" "26.0" "26.6"; then
+    isAffected=true
+elif inRange "$os_version" "15.0" "15.7.8"; then
+    isAffected=true
+elif inRange "$os_version" "14.0" "14.8.8"; then
+    isAffected=true
+fi
+
+isPatched=false
+case "$os_major" in
+    14) isNewerThan "$os_version" "14.8.8" && isPatched=true ;;
+    15) isNewerThan "$os_version" "15.7.8" && isPatched=true ;;
+    26) isNewerThan "$os_version" "26.6" && isPatched=true ;;
+    *) [[ "$os_major" -gt 26 ]] 2>/dev/null && isPatched=true ;;
+esac
+
+if [[ "$isAffected" == true ]]; then
+    output=$(screenSharingState)
+elif [[ "$isPatched" == true ]]; then
+    output="Patched - $(screenSharingState)"
+else
+    log "os_version=$os_version not in affected range and not patched; skipping check"
+fi
+
+log "os_version=$os_version | affected=$isAffected | patched=$isPatched | result=$output"
+echo "${output:-Disabled}"
