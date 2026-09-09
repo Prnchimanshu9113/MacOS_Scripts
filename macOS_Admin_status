@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Variables
+current_user=$(stat -f %Su /dev/console)
+ceadmin="CEAdmin"
+
+# Check if CEAdmin exists
+if id "$ceadmin" &>/dev/null; then
+  ceadmin_exists=true
+else
+  ceadmin_exists=false
+fi
+
+# Check if current user is in admin group
+if /usr/sbin/dseditgroup -o checkmember -m "$current_user" admin | grep -q "yes"; then
+  current_is_admin=true
+else
+  current_is_admin=false
+fi
+
+# Check if CEAdmin is in admin group
+if /usr/sbin/dseditgroup -o checkmember -m "$ceadmin" admin | grep -q "yes"; then
+  ceadmin_is_admin=true
+else
+  ceadmin_is_admin=false
+fi
+
+# Determine output code
+if [ "$current_is_admin" = true ] && [ "$ceadmin_exists" = false ]; then
+  echo 0  # Current user is admin and CEAdmin does not exist
+elif [ "$current_is_admin" = false ] && [ "$ceadmin_exists" = true ] && [ "$ceadmin_is_admin" = true ]; then
+  echo 1  # Current user is standard and CEAdmin is admin
+elif [ "$current_is_admin" = false ] && [ "$ceadmin_exists" = false ]; then
+  echo 2  # Current user is standard and CEAdmin does not exist
+elif [ "$current_is_admin" = true ] && [ "$ceadmin_exists" = true ] && [ "$ceadmin_is_admin" = true ]; then
+  echo 3  # Both Current user and CEAdmin are admin
+elif [ "$current_is_admin" = false ] && [ "$ceadmin_exists" = true ] && [ "$ceadmin_is_admin" = false ]; then
+  echo 4 # Both Current user and CEAdmin are standard
+fi
+
+exit 0
