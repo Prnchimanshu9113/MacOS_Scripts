@@ -1,0 +1,47 @@
+#!/bin/bash
+
+LOGGED_IN_USER=$(stat -f "%Su" /dev/console 2>/dev/null)
+KEYCHAIN="/Users/$LOGGED_IN_USER/Library/Keychains/login.keychain-db"
+
+# Check for NEW ZEN certificate
+NEW_ZEN_SHAS=$(security find-certificate -a -Z "$KEYCHAIN" 2>/dev/null | awk '
+/SHA-1 hash:/ { sha=$3 }
+/issu.*ADOBE MAGW ZEN CA/ { print sha }
+')
+
+# If NEW cert not found
+if [[ -z "$NEW_ZEN_SHAS" ]]; then
+    echo "Not Migrated : New Certificate Not Exists"
+    exit 0
+fi
+
+# Check for OLD ZEN certificates
+OLD_ZEN_SHAS=$(security find-certificate -a -Z "$KEYCHAIN" 2>/dev/null | awk '
+/SHA-1 hash:/ { sha=$3 }
+/issu.*ADOBE MAGW CA/ && !/ADOBE MAGW ZEN CA/ { print sha }
+')
+
+# If no OLD cert exists
+if [[ -z "$OLD_ZEN_SHAS" ]]; then
+    echo "Migrated : Only NEW ZEN Certificate Available"
+    exit 0
+fi
+
+# Attempt to remove OLD certificates
+ALL_REMOVED=true
+
+while read -r SHA; do
+    if [[ -n "$SHA" ]]; then
+        if ! security delete-certificate -Z "$SHA" "$KEYCHAIN" >/dev/null 2>&1; then
+            ALL_REMOVED=false
+        fi
+    fi
+done <<< "$OLD_ZEN_SHAS"
+
+if [[ "$ALL_REMOVED" == true ]]; then
+    echo "Migrated : Removed Old Zen Certificates"
+else
+    echo "Not Migrated : Old Certificate Still Exists"
+fi
+
+exit 0
