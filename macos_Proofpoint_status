@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Common checks
+registration=$(/Library/PEA/agent/oitcons -check | grep -i "registration" | grep -c "PASS")
+realm_dlp=$(/Library/PEA/agent/oitcons -check | grep -i "realm" | grep -c "adobe-dlp-realm")
+realm_oit=$(/Library/PEA/agent/oitcons -check | grep -i "realm" | grep -c "adobe-production-realm")
+itprotector=$(ps -ef | grep -i "[I]TProtector" | grep -c "/ITProtector.app")
+
+if [[ "$registration" -gt 0 && "$realm_dlp" -gt 0 && "$itprotector" -gt 0 ]]; then
+    echo "DLP"
+elif [[ "$registration" -gt 0 && "$realm_oit" -gt 0 && "$itprotector" -gt 0 ]]; then
+    echo "OIT"
+else
+     echo "None"
+fi
