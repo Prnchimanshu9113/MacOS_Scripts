@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Check Screensaver Configuration
+screensaver_plist="/Library/Managed Preferences/com.apple.screensaver.plist"
+screensaver_status="Disabled"
+
+if [ -f "$screensaver_plist" ]; then
+    screensaver_timeout=$(defaults read "$screensaver_plist" idleTime 2>/dev/null)
+    if [[ "$screensaver_timeout" -eq 900 || "$screensaver_timeout" -eq 1200 ]]; then
+        screensaver_status="Enabled"
+    fi
+fi
+
+# Check Firewall Status
+firewall_status="Disabled"
+firewall_state=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate 2>/dev/null)
+
+if echo "$firewall_state" | grep -qi "enabled"; then
+    firewall_status="Enabled"
+fi
+
+# Combined Output
+echo "${screensaver_status},${firewall_status}"
