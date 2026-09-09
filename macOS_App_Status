@@ -1,0 +1,17 @@
+#!/bin/bash
+
+APP_DIR="/Library/Application Support/Nexthink"
+PROCESS_NAME="nxtcoordinator"
+CONFIG_FILE="$APP_DIR/config.json"
+
+if [[ -d "$APP_DIR" ]] && pgrep -f "$PROCESS_NAME" > /dev/null; then
+    
+    if [[ -f "$CONFIG_FILE" ]]; then
+        VERSION=$(grep -i version "$CONFIG_FILE" | cut -d '"' -f4)
+        echo "Installed,$VERSION"   
+    else
+        echo "Installed,Unknown"
+    fi
+else
+    echo "Not Installed"
+fi
