@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get current user
+user=$(ls -l /dev/console | awk '{print $3}')
+extensions_dir="/Users/$user/Library/Application Support/Google/Chrome/Default/Extensions"
+
+# Check for valid extension directories
+if [ -d "$extensions_dir" ]; then
+  extensions=$(find "$extensions_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -E '^[a-p]{32}$')
+  
+  if [ -n "$extensions" ]; then
+    # Output the list of extensions
+    echo "${extensions//$'\n'/, }"
+    exit 0
+  fi
+fi
+
+# If no valid extensions or no directory
+echo  "No extensions found"
